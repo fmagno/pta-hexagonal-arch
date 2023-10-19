@@ -1,0 +1,38 @@
+version: "3.7"
+
+services:
+  app:
+    image: pta_local_api_test
+    build:
+      context: ../../
+      dockerfile: ./infra/docker/api/Dockerfile.test
+    container_name: pta_local_api_test
+    environment:
+      APP_NAME: ${APP_NAME}
+      CONTROLLER_APP: ${CONTROLLER_APP}
+      CONTROLLER_HOST: ${CONTROLLER_HOST}
+      CONTROLLER_PORT: ${CONTROLLER_PORT}
+      REPOSITORY: ${REPOSITORY}
+      CORS_ORIGINS: ${CORS_ORIGINS}
+      API_URL_PREFIX: ${API_URL_PREFIX}
+      API_APP: ${API_APP}
+      DEBUG_ENABLED: ${DEBUG_ENABLED}
+      DEBUG_HOST: ${DEBUG_HOST}
+      DEBUG_PORT: ${DEBUG_PORT}
+      # UVICORN_WORKERS: ${UVICORN_WORKS}
+
+    volumes:
+      - ../../src:/pta/src:z
+      # - ../../src:/src:z
+      # - ./:/pta:z
+      # - ../../src:/pta:z
+    ports:
+      - "${CONTROLLER_PORT}:${CONTROLLER_PORT}"
+      - "${DEBUG_PORT}:${DEBUG_PORT}"
+    # depends_on:
+    #   - "postgres"
+    tty: true # fixes colored output!
+    # command: /start-test
+    # command: sleep 10
+    command: /pta/start-test
+    # command: /bin/bash

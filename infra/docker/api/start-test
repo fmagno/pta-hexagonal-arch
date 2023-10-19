@@ -1,0 +1,51 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+
+echo "Starting pytest..."
+
+
+# python -m pytest -vv -n auto --disable-pytest-warnings .
+# python -m pytest -vv --disable-pytest-warnings .
+
+if [[ "${DEBUG_ENABLED}" == "true" ]]; then
+    echo "Launching pydebug at port ${DEBUG_PORT}."
+    # pytest flags are set in pyproject.toml
+    python -m debugpy \
+        --listen 0.0.0.0:${DEBUG_PORT} \
+        --wait-for-client \
+        -m pytest .
+        # -m pytest \
+        #     -vv \
+        #     --disable-pytest-warnings \
+        #     --capture=no \
+        #     -k "not skip" \
+        #     .
+        #     # --no-cov  # disable coverage to avoid messing with debugger[1]
+
+else
+    echo "pydebug disabled."
+    # pytest flags are set in pyproject.toml
+    pytest .
+    # pytest \
+    #     -vv \
+    #     # --disable-pytest-warnings \
+    #     --capture=no \
+    #     -k "not skip" \
+    #     .
+fi
+
+
+# python -m debugpy \
+#     --listen 0.0.0.0:${DEBUG_PORT} \
+#     --wait-for-client \
+#     -m pytest \
+#         -vv \
+#         --disable-pytest-warnings
+#         . \
+#         # --no-cov  # disable coverage to avoid messing with debugger[1]
+
+# [1] https://pytest-cov.readthedocs.io/en/latest/debuggers.html

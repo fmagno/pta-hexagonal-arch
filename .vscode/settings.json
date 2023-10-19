@@ -1,0 +1,56 @@
+{
+  "editor.formatOnSave": true,
+  "python.languageServer": "Pylance",
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.autoImportUserSymbols": true,
+  "python.analysis.completeFunctionParens": true,
+  "python.analysis.inlayHints.functionReturnTypes": true,
+  "python.analysis.inlayHints.pytestParameters": true,
+  "python.analysis.inlayHints.variableTypes": true,
+  "python.formatting.provider": "black",
+  "python.linting.mypyEnabled": true,
+  "python.linting.pylintEnabled": false,
+  "python.linting.flake8Enabled": true,
+  "isort.check": true,
+  "editor.renderLineHighlight": "line",
+  "editor.renderLineHighlightOnlyWhenFocus": false,
+  "editor.scrollBeyondLastLine": true,
+  "editor.guides.bracketPairs": true,
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.cursorStyle": "block",
+  "editor.cursorBlinking": "blink",
+  "editor.cursorSurroundingLines": 0,
+  "editor.cursorWidth": 0,
+  "editor.find.cursorMoveOnType": true,
+  "python.defaultInterpreterPath": ".venv/bin/python",
+  // Show variable values inline in editor while debugging.
+  "debug.inlineValues": "on",
+  // "editor.rulers": [
+  //     88
+  // ],
+  "workbench.colorCustomizations": {
+    "editorCursor.foreground": "#ffff00",
+    "terminalCursor.foreground": "#ffff00"
+  },
+  "python.analysis.extraPaths": ["src"],
+  // "editor.defaultFormatter": null,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true
+  },
+
+  "eslint.format.enable": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescript]": {
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": "active",
+    "editor.inlineSuggest.enabled": true,
+    "editor.quickSuggestions": {
+      "strings": true
+    }
+  },
+  "python.analysis.typeCheckingMode": "basic",
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  }
+}

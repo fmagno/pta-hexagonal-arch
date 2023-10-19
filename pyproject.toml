@@ -1,0 +1,69 @@
+[project]
+name = "pizza-tycoon"
+classifiers = ["Private :: Do Not Upload"]
+version = "0"
+dependencies = [
+    "pydantic",
+    "pydantic-settings",
+    "uvicorn",
+    "fastapi",
+    "httpx",
+    #
+]
+
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "debugpy",
+    "flake8",
+    "isort",
+    # "mypy==0.991",
+    "mypy",
+    "pre-commit",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-xdist",
+    "watchdog",
+]
+
+[build-system]
+requires = ["setuptools>=63", "setuptools_scm[toml]>=6.2", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# [tool.setuptools_scm]
+# write_to = "src/api/v2/_version.py"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+asyncio_mode = "auto"
+addopts = """
+    --durations=10
+    --strict-markers
+    -k "not skip"
+    --log-cli-level=DEBUG
+"""
+# -vv
+# --capture=no
+# --disable-pytest-warnings
+
+markers = [
+    "alchemy: provider alchemy tests",
+    "smoke: smoke tests",              # deselect with '-m "not slow"'
+    "first_order",
+    "unit",
+    "integration",
+    "e2e",
+    "debug",
+    #
+]
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 127
+target-version = ['py310']
+
+# [tool.flake8]
+# line-length = 88

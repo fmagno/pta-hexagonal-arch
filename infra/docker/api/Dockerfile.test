@@ -1,0 +1,61 @@
+FROM python:3.11.5-bullseye
+
+ENV USER_ID=1000
+ENV GROUP_ID=1000
+ENV USER_NAME=api
+
+ENV PYTHONPATH /pta/src
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
+
+RUN groupadd -g ${GROUP_ID} ${USER_NAME}
+RUN useradd ${USER_NAME} \
+    -u ${USER_ID} \
+    -g ${GROUP_ID} \
+    -m \
+    -s /bin/bash
+
+# COPY --chown=${USER_ID}:${GROUP_ID} ./api/requirements/base.txt /requirements/
+# COPY --chown=${USER_ID}:${GROUP_ID} ./api/requirements/local.txt /requirements/
+
+RUN mkdir -p /pta/src
+RUN chown -R ${USER_NAME}:${USER_NAME} /pta
+
+COPY --chown=${USER_ID}:${GROUP_ID} ./requirements-dev.txt /pta
+# COPY --chown=${USER_ID}:${GROUP_ID} ../../requirements-dev.txt /requirements
+
+# # COPY --chown=${USER_ID}:${GROUP_ID} \
+# #      ./api/requirements/local.txt \
+# #      /requirements/
+
+RUN pip install -U pip && \
+    pip install pip-tools wheel && \
+    pip-sync /pta/requirements-dev.txt
+
+COPY --chown=${USER_ID}:${GROUP_ID} \
+        ./infra/docker/api/start-test \
+        /pta/start-test
+
+COPY --chown=${USER_ID}:${GROUP_ID} \
+        ./pyproject.toml \
+        /pta/pyproject.toml
+
+
+# COPY --chown=${USER_ID}:${GROUP_ID} \
+#      ./docker/local/api/start \
+#      /start
+# COPY --chown=${USER_ID}:${GROUP_ID} \
+#      ./docker/local/api/start-test \
+#      /start-test
+
+# RUN chmod +x /entrypoint && \
+#     chmod +x /start && \
+#     chmod +x /start-test
+
+RUN chmod +x /pta/start-test
+
+WORKDIR /pta/
+USER ${USER_NAME}
+
+ENTRYPOINT [ "/pta/start-test" ]
+# ENTRYPOINT [ "/bin/bash" ]
